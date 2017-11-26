@@ -10,15 +10,40 @@ import Foundation
 
 struct Student {
     
-    let id: Int
-    let name: String
-    let gpa: Double
+    var id: Int
+    var name: String
+    var gpa: Double
     
     func description() -> String {
         return "\(name) [\(id)] with GPA \(gpa)"
     }
     
 }
+
+struct Class {
+    var subject:  String
+    var teacher:  String
+    var students: [Student]
+    
+    func listStudents(separator: String) -> String {
+        var output = ""
+        for student in students {
+            output += student.description() + separator
+        }
+        return output
+    }
+    
+    func studentAverage() -> Double {
+        var sum: Double = 0.0
+        for student in students {
+            sum += student.gpa
+        }
+        return sum / Double(students.count)
+    }
+    
+}
+
+
 
 func schoolProgram() {
     
@@ -30,8 +55,10 @@ func schoolProgram() {
         Student(id: 565179, name: "Jim", gpa: 3.1)
     ]
     
+     let myClass = Class(subject: "Biology", teacher: "Mr. Smith", students: students)
+    print(myClass.listStudents(separator: "\n"))
     
     
-    print(students[0].description())
-    
+//    print(listStudents(students: students, separator: "\n"))
+//        print(studentAverage(students: students))
 }
