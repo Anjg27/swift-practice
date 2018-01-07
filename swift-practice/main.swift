@@ -1,1 +1,1 @@
-schoolProgram()
+inheritanceProgram()

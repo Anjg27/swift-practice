@@ -8,27 +8,57 @@
 
 import Foundation
 
-struct Student {
+class Person {
     
-    var id: Int
     var name: String
-    var gpa: Double
+    var age: Int
+    var gender: String
     
-    func description() -> String {
-        return "\(name) [\(id)] with GPA \(gpa)"
+    init(name: String, age:Int, gender: String) {
+        self.name = name
+        self.age = age
+        self.gender = gender
     }
     
 }
 
+class Student : Person, CustomStringConvertible {
+    
+    var id: Int
+    var gpa: Double
+    
+    var description: String {
+        return "\(name) [\(id)] with GPA \(gpa)"
+    }
+    
+    init(id: Int, name: String, age: Int, gender: String, gpa: Double) {
+        self.id = id
+        self.gpa = gpa
+        super.init(name: name, age: age, gender: gender)
+    }
+    
+}
+
+class Teacher: Person {
+
+    var coolness: String
+    
+    init(name: String, age: Int, gender: String, coolness: String) {
+        self.coolness = coolness
+        super.init(name: name, age: age, gender: gender)
+    }
+}
+
+
 struct Class {
     var subject:  String
-    var teacher:  String
+    var teacher:  Teacher
     var students: [Student]
     
     func listStudents(separator: String) -> String {
         var output = ""
         for student in students {
-            output += student.description() + separator
+            output += "\(student)\(separator)"
         }
         return output
     }
@@ -48,17 +78,20 @@ struct Class {
 func schoolProgram() {
     
     let students = [
-        Student(id: 565924, name: "Anjali", gpa: 3.7),
-        Student(id: 565375, name: "Jessica", gpa: 3.5),
-        Student(id: 565836, name: "Kelsey", gpa: 4.3),
-        Student(id: 565260, name:"Matt" , gpa: 3.9),
-        Student(id: 565179, name: "Jim", gpa: 3.1)
+        Student(id: 565924, name: "Anjali", age: 15, gender: "F", gpa: 3.7),
+        Student(id: 565375, name: "Jessica", age: 15, gender:"F", gpa: 3.5),
+        Student(id: 565836, name: "Kelsey", age: 16, gender: "F", gpa: 4.3),
+        Student(id: 565260, name:"Matt", age: 15, gender: "M", gpa: 3.9),
+        Student(id: 565179, name: "Jim", age: 16, gender: "M", gpa: 3.1)
     ]
     
-     let myClass = Class(subject: "Biology", teacher: "Mr. Smith", students: students)
+    let teacher = Teacher(name: "Mr. Smith", age: 40, gender: "M", coolness: "Not very cool")
+    
+     let myClass = Class(subject: "Biology", teacher: teacher, students: students)
     print(myClass.listStudents(separator: "\n"))
     
     
 //    print(listStudents(students: students, separator: "\n"))
-//        print(studentAverage(students: students))
+    print(myClass.studentAverage())
+   
 }
